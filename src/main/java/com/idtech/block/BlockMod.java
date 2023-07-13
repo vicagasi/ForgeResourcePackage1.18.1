@@ -57,6 +57,7 @@ public class BlockMod {
         event.getRegistry().register(CreepingMoldBlock.ITEM);
         event.getRegistry().register(LatteBlock.ITEM);
         event.getRegistry().register(LatteMidBlock.ITEM);
+        event.getRegistry().register(SoakedBlock.ITEM);
     }
 
     @SubscribeEvent
@@ -73,6 +74,7 @@ public class BlockMod {
         event.getRegistry().register(CreepingMoldBlock.INSTANCE);
         event.getRegistry().register(LatteBlock.INSTANCE);
         event.getRegistry().register(LatteMidBlock.INSTANCE);
+        event.getRegistry().register(SoakedBlock.INSTANCE);
 
     }
 }
