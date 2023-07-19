@@ -1,0 +1,6 @@
+{
+  "parent": "examplemod:item/jesterbow",
+  "textures": {
+    "layer0": "examplempd:item/jesterbow_pulling_0"
+  }
+}

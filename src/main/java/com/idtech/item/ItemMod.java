@@ -2,6 +2,7 @@ package com.idtech.item;
 
 import com.idtech.ModTab;
 
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -11,6 +12,8 @@ import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Properties;
 
 @Mod.EventBusSubscriber
 public class ItemMod {

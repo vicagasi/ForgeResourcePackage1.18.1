@@ -20,8 +20,9 @@ import java.util.Random;
 
 public class JesterBow extends BowItem {
 
-    private static Item.Properties properties = new Item.Properties().tab(ModTab.INSTANCE);
+    public static Item.Properties properties = new Item.Properties().tab(ModTab.INSTANCE);
     public static Item INSTANCE = new JesterBow(properties).setRegistryName("jesterbow");
+
     public JesterBow(Item.Properties properties) {
         super(properties);
     }

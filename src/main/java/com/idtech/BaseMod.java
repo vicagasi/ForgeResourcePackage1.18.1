@@ -72,6 +72,8 @@ public class BaseMod {
 //        MinecraftForge.EVENT_BUS.register(CustomEvent.class);
 //        MinecraftForge.EVENT_BUS.addListener(EventMod::isHoldingEvent);
         //Adds the RegisterCommandEvent as an event and sets a listener for it during FMLCommonSetup
+        // Generates a bow
+        ItemUtils.makeBow(JesterBow.INSTANCE);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
