@@ -3,16 +3,13 @@ package com.idtech.block;
 
 import com.idtech.BaseMod;
 import com.idtech.ModTab;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.block.Block;
 //import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 //import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -57,7 +54,7 @@ public class BlockMod {
         event.getRegistry().register(CreepingMoldBlock.ITEM);
         event.getRegistry().register(LatteBlock.ITEM);
         event.getRegistry().register(LatteMidBlock.ITEM);
-        event.getRegistry().register(SoakedBlock.ITEM);
+        event.getRegistry().register(LandmineBlock.ITEM);
     }
 
     @SubscribeEvent
@@ -74,7 +71,7 @@ public class BlockMod {
         event.getRegistry().register(CreepingMoldBlock.INSTANCE);
         event.getRegistry().register(LatteBlock.INSTANCE);
         event.getRegistry().register(LatteMidBlock.INSTANCE);
-        event.getRegistry().register(SoakedBlock.INSTANCE);
+        event.getRegistry().register(LandmineBlock.INSTANCE);
 
     }
 }
