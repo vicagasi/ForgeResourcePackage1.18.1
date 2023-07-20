@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:tnt"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "minecraft:green_carpet"
+    }
+  ],
+  "result":
+  {
+    "item": "examplemod:landmine",
+    "count": 1
+  }
+}

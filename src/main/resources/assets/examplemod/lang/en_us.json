@@ -50,5 +50,6 @@
   "item.examplemod.xraygoggles": "X-Ray Goggles",
   "item.examplemod.laserstaff": "Staff of Laser",
   "item.examplemod.throwablepickaxe": "Explosive Wooden Pickaxe",
-  "item.examplemod.jesterbow": "Jester's Bow"
+  "item.examplemod.jesterbow": "Jester's Bow",
+  "block.examplemod.landmine": "Land Mine"
 }

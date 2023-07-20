@@ -40,7 +40,9 @@ public class LandmineBlock extends Block {
     public void stepOn(Level levelIn, BlockPos posIn, BlockState blockStateIn, Entity entityIn) {
         super.stepOn(levelIn, posIn, blockStateIn, entityIn);
 
+        entityIn.hurt(DamageSource.GENERIC, 65F);
         // KABOOM
-        levelIn.explode(entityIn, posIn.getX(), posIn.getY(), posIn.getZ(), 4.0F, Explosion.BlockInteraction.BREAK);
+        levelIn.explode(entityIn, posIn.getX(), posIn.getY() + 0.25, posIn.getZ(), 5.0F, Explosion.BlockInteraction.BREAK);
+        entityIn.setDeltaMovement(0,1,0);
     }
 }
