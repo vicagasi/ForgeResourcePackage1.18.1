@@ -13,6 +13,7 @@ package com.idtech.item;
 
 import com.idtech.ModTab;
 import com.idtech.entity.projectiles.ExplosionProjectile;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -33,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.CheckForNull;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class LaserStaffItem extends Item {
@@ -45,8 +47,9 @@ public class LaserStaffItem extends Item {
 
     // Variables
     int weaponRange = 100;
-    int weaponDamage = 4;
+    int weaponDamage = 10;
     float weaponKnock = 0.2f;
+    int weaponCooldown = 20;
 
     // Raycasting
     @CheckForNull
@@ -103,31 +106,80 @@ public class LaserStaffItem extends Item {
         return optional.map(vector3d -> new EntityHitResult(target, vector3d)).orElse(null);
     }
 
+    @CheckForNull
+    public static void particleSpawner(Level level, Player player, Entity entity, Boolean entHit){
+
+        Random rng = new Random();
+
+        if (level.isClientSide) {
+            // Make 3 - 5 particles on staff
+            /* for(int i = 0; i < (3 + rng.nextInt(2)); i++){
+                level.addParticle(ParticleTypes.FIREWORK,
+                        // Random particle placement
+                        player.getX() + -1 + rng.nextInt(2),  player.getY() + rng.nextInt(2),  player.getZ() + -1 + rng.nextInt(2),
+                        // Random particle movement
+                        (0f + (float)rng.nextInt(1)), (0f + (float)rng.nextInt(1)), (0f + (float)rng.nextInt(1)));
+            } */
+            // Make 5 - 8 particles on hit enemy
+            if(entHit){
+                for(int i = 0; i < (5 + rng.nextInt(3)); i++){
+                    level.addParticle(ParticleTypes.FIREWORK,
+                            // Random particle placement
+                            entity.getX() + -1 + rng.nextInt(2), entity.getY() + rng.nextInt(2), entity.getZ() + -1 + rng.nextInt(2),
+                            // Random particle movement
+                            (0f + (float)rng.nextInt(1)), (0f + (float)rng.nextInt(1)), (0f + (float)rng.nextInt(1)));
+                }
+            }
+        }
+    }
+
+
     // Interact action
     @Override
     public InteractionResultHolder<ItemStack> use(Level levelIn, Player playerIn, InteractionHand handIn) {
 
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
-        // Make a ray cast
-        EntityHitResult result = getEntityLookingAt(playerIn, this.weaponRange);
-        // If the raycast hits...
-        if (result != null) {
-            Entity target = result.getEntity();
-            if (target instanceof LivingEntity livingEntity) {
+        if (!playerIn.getCooldowns().isOnCooldown(itemstack.getItem())) {
 
-                DamageSource damageSource = DamageSource.playerAttack(playerIn);
-                playerIn.setLastHurtMob(livingEntity);
-
-                double ratioX = Mth.sin(playerIn.getYRot() * ((float) Math.PI / 180F));
-                double ratioZ = -Mth.cos(playerIn.getYRot() * ((float) Math.PI / 180F));
-
-                livingEntity.knockback(weaponKnock, ratioX, ratioZ);
-                livingEntity.hurt(damageSource, weaponDamage);
+            // Add cool down
+            if (!playerIn.getAbilities().instabuild) {
+                playerIn.getCooldowns().addCooldown(itemstack.getItem(), weaponCooldown);
             }
+
+            // Make cast noise
+            levelIn.playSound((Player) null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 0.5F,
+                    0.4F / (levelIn.getRandom().nextFloat() * 0.4F + 0.8F));
+
+            // Make a ray cast
+            EntityHitResult result = getEntityLookingAt(playerIn, this.weaponRange);
+            // If the raycast hits...
+            if (result != null) {
+                Entity target = result.getEntity();
+
+                if (target instanceof LivingEntity livingEntity) {
+
+                    DamageSource damageSource = DamageSource.playerAttack(playerIn);
+                    playerIn.setLastHurtMob(livingEntity);
+
+                    double ratioX = Mth.sin(playerIn.getYRot() * ((float) Math.PI / 180F));
+                    double ratioZ = -Mth.cos(playerIn.getYRot() * ((float) Math.PI / 180F));
+
+                    // Do damage
+                    livingEntity.knockback(weaponKnock, ratioX, ratioZ);
+                    livingEntity.hurt(damageSource, weaponDamage);
+                    // Spawn particles
+                    particleSpawner(levelIn, playerIn, livingEntity, true);
+                    // Play hit sound
+                    levelIn.playSound((Player) null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.ARROW_HIT_PLAYER, SoundSource.NEUTRAL, 0.5F, 0.5F);
+                }
+            }
+
+            return InteractionResultHolder.sidedSuccess(itemstack, levelIn.isClientSide());
+
         }
 
-        return InteractionResultHolder.sidedSuccess(itemstack, levelIn.isClientSide());
+        return InteractionResultHolder.fail(itemstack);
 
     }
 }
