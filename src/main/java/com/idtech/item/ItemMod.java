@@ -2,6 +2,7 @@ package com.idtech.item;
 
 import com.idtech.ModTab;
 
+import com.idtech.item.staffs.FireboltStaff;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,6 +64,7 @@ public class ItemMod {
         event.getRegistry().register(LaserStaffItem.INSTANCE);
         event.getRegistry().register(ThrowablePickaxe.INSTANCE);
         event.getRegistry().register(JesterBow.INSTANCE);
+        event.getRegistry().register(FireboltStaff.INSTANCE);
 
         // FOOD
         event.getRegistry().register(yummyFoodItem);
